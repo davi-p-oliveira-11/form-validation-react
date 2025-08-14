@@ -17,8 +17,40 @@ const Form = () => {
   const [passwordColor, setPasswordColor] = useState("");
   const [confirmPasswordColor, setConfirmPasswordColor] = useState("");
 
-  function validate(e) {
+  function validate(e: { preventDefault: () => void; }) {
     e.preventDefault();
+
+    if(username.length > 8) {
+      setErrorUserName("")
+      setUserColor("green")
+    } else {
+      setErrorUserName("Username must be 8 letters long.")
+      setUserColor("red")
+    }
+
+    if (email.includes("@gmail")) {
+      setErrorEmail("");
+      setEmailColor("green");
+    } else {
+      setEmailColor("red");
+      setErrorEmail("Email should have @gmail");
+    }
+
+    if (password.length > 8) {
+      setErrorPassword("");
+      setPasswordColor("green");
+    } else {
+      setErrorPassword("Password should be 8 letters long ");
+      setPasswordColor("red");
+    }
+
+    if (password != "" && password == confirmPassword) {
+      setErrorConfirmPassword("");
+      setConfirmPasswordColor("green");
+    } else {
+      setErrorConfirmPassword("Passwords didn't match.");
+      setConfirmPasswordColor("red");
+    }
   }
 
   return (
@@ -35,34 +67,36 @@ const Form = () => {
           />
           <p className="error">{errorUserName}</p>
 
-          <input 
+          <input
             type="text"
             placeholder="Email"
-            style={{ borderColor: emailColor}} 
+            style={{ borderColor: emailColor }}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <p className="error">{errorEmail}</p>
 
-          <input 
-            type="password" 
+          <input
+            type="password"
             placeholder="Password"
             style={{ borderColor: passwordColor }}
             value={password}
-            onChange={(e) => setPassword(e.target.value)}  
+            onChange={(e) => setPassword(e.target.value)}
           />
           <p className="error">{errorPassword}</p>
 
-          <input 
-            type="password" 
+          <input
+            type="password"
             placeholder="Confirm Password"
-            style={{ borderColor: confirmPasswordColor}}  
+            style={{ borderColor: confirmPasswordColor }}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
           <p className="error">{errorConfrimPassword}</p>
 
-          
+          <button className="submit-btn" onClick={validate}>
+            Submit
+          </button>
         </form>
       </div>
     </>
